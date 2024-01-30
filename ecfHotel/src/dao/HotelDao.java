@@ -1,0 +1,178 @@
+package dao;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+
+import entites.Db;
+import entites.Hotel;
+import entites.ICatalogue;
+
+public class HotelDao implements ICatalogue<Hotel>{
+
+    @Override
+    public ArrayList<Hotel> getAll() {
+        ArrayList <Hotel> listeH = new ArrayList<>();
+        try {
+            PreparedStatement ps = Db.con.prepareStatement
+            ("SELECT * FROM Hotel");
+
+            ResultSet resp = ps.executeQuery();
+
+            while (resp.next()) {
+                Hotel h = new Hotel();
+                h.setId_hotel(resp.getInt("id_hotel"));
+                h.setNomH(resp.getString("nomH"));
+                h.setAdresseH(resp.getString("adresseH"));
+                h.setVilleH(resp.getString("villeH"));
+                h.setDescriptionH(resp.getString("descriptionH"));
+                h.setParkingH(resp.getString("parkingH"));
+                h.setWifiH(resp.getString("wifiH"));
+                h.setHeureAaH(resp.getString("heureAaH"));
+                h.setHeureDepH(resp.getString("heureDepH"));
+                h.setPiscineH(resp.getString("piscineH"));
+                h.setNavetteH(resp.getString("navetteH"));
+                h.setPresenceAniH(resp.getString("presenceAniH"));
+                h.setCatH(resp.getInt("catH"));
+                listeH.add(h);
+            }
+            return listeH;
+        } catch (Exception e) {
+            System.err.println("Liste des hotels introuvable".toUpperCase());
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public Hotel getById(int id) {
+        try {
+            PreparedStatement ps = Db.con.prepareStatement
+            ("SELECT * FROM hotel WHERE id_hotel = ?");
+            ps.setInt(1, id);
+            ResultSet resp = ps.executeQuery();
+            if (resp.next()) {
+                Hotel h = new Hotel();
+                h.setId_hotel(resp.getInt("id_hotel"));
+                h.setNomH(resp.getString("nomH"));
+                h.setAdresseH(resp.getString("adresseH"));
+                h.setVilleH(resp.getString("villeH"));
+                h.setDescriptionH(resp.getString("descriptionH"));
+                h.setParkingH(resp.getString("parkingH"));
+                h.setWifiH(resp.getString("wifiH"));
+                h.setHeureAaH(resp.getString("heureAaH"));
+                h.setHeureDepH(resp.getString("heureDepH"));
+                h.setPiscineH(resp.getString("piscineH"));
+                h.setNavetteH(resp.getString("navetteH"));
+                h.setPresenceAniH(resp.getString("presenceAniH"));
+                h.setCatH(resp.getInt("catH"));
+                return h;                  
+            }
+            else return null;
+        } catch (Exception e) {
+            System.err.println("Objet Chambre introuvable");
+            e.printStackTrace();
+            return null;
+        }  
+    }
+
+    @Override
+    public ArrayList<Hotel> recherche(String w) {
+        ArrayList <Hotel> listeH = new ArrayList<>();
+        try {
+            PreparedStatement ps = Db.con.prepareStatement
+            ("SELECT * from hotel WHERE nomH LIKE ?");
+            ps.setString(1, "%"+w+"%");
+            ResultSet resp = ps.executeQuery();
+
+            while (resp.next()) {
+                Hotel h = new Hotel();
+                h.setId_hotel(resp.getInt("id_hotel"));
+                h.setNomH(resp.getString("nomH"));
+                h.setAdresseH(resp.getString("adresseH"));
+                h.setVilleH(resp.getString("villeH"));
+                h.setDescriptionH(resp.getString("descriptionH"));
+                h.setParkingH(resp.getString("parkingH"));
+                h.setWifiH(resp.getString("wifiH"));
+                h.setHeureAaH(resp.getString("heureAaH"));
+                h.setHeureDepH(resp.getString("heureDepH"));
+                h.setPiscineH(resp.getString("piscineH"));
+                h.setNavetteH(resp.getString("navetteH"));
+                h.setPresenceAniH(resp.getString("presenceAniH"));
+                h.setCatH(resp.getInt("catH"));
+                listeH.add(h);
+
+            }
+            return listeH;
+        } catch (Exception e) {
+            System.err.println("Donnée introuvable".toUpperCase());
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public void save(Hotel htl) {
+    try {
+        
+        if(htl.getId_hotel() != 0) {
+            PreparedStatement ps  = Db.con.prepareStatement
+            ("UPDATE hotel SET nomH=?,adresseH=?,villeH=?,descriptionH=?,parkingH=?,wifiH=?,heureAaH=?,heureDepH=?,piscineH=?,navetteH=?,presenceAniH=?,catH=? WHERE id_ch=?");
+            ps.setString(1,htl.getNomH());
+            ps.setString(2,htl.getAdresseH());
+            ps.setString(3,htl.getVilleH());
+            ps.setString(4,htl.getDescriptionH());
+            ps.setString(5,htl.getParkingH());
+            ps.setString(6,htl.getWifiH());
+            ps.setString(7, htl.getHeureAaH());
+            ps.setString(8, htl.getHeureDepH());
+            ps.setString(9, htl.getPiscineH());
+            ps.setString(10,htl.getNavetteH());
+            ps.setString(11, htl.getPresenceAniH());
+            ps.setInt(12,htl.getCatH());
+            ps.setInt(13,htl.getId_hotel());
+            ps.executeUpdate();
+            System.out.println("Mise à jour effectuée".toUpperCase());
+        }else {
+            PreparedStatement ps  = Db.con.prepareStatement
+            ("INSERT INTO hotel (nomH,adresseH,villeH,descriptionH,parkingH,wifiH,heureAaH,heureDepH,piscineH,navetteH,presenceAniH,catH) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)");
+            ps.setString(1,htl.getNomH());
+            ps.setString(2,htl.getAdresseH());
+            ps.setString(3,htl.getVilleH());
+            ps.setString(4,htl.getDescriptionH());
+            ps.setString(5,htl.getParkingH());
+            ps.setString(6,htl.getWifiH());
+            ps.setString(7, htl.getHeureAaH());
+            ps.setString(8, htl.getHeureDepH());
+            ps.setString(9, htl.getPiscineH());
+            ps.setString(10,htl.getNavetteH());
+            ps.setString(11, htl.getPresenceAniH());
+            ps.setInt(12,htl.getCatH());
+            ps.executeUpdate();
+            System.out.println("insertion Réussie".toUpperCase());
+        }
+        
+    } catch (Exception e) {
+        System.err.println("update ou insertion échouée".toUpperCase());
+        e.printStackTrace();
+    }
+
+    }
+
+    @Override
+    public void delete(int id) {
+        try {
+            
+            PreparedStatement ps  = Db.con.prepareStatement
+            ("DELETE FROM hotel WHERE id_hotel=?");
+            ps.setInt(1,id);
+            ps.executeUpdate();
+            System.out.println("Supprimé".toUpperCase());
+        
+    } catch (Exception e) {
+        System.out.println("non suppriùé".toLowerCase());
+        e.printStackTrace();
+    }
+    }
+
+}
