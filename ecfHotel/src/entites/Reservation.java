@@ -1,12 +1,16 @@
 package entites;
 
 public class Reservation {
+	//Création des propriétées
 	private int id_reserv;
 	private String dateDebRes;
 	private String dateFinR;
 	private int nbPerso;
 	private int id_ch;
 	private int id_client;
+
+
+	//Génération des constructeurs
 	public Reservation() {
 		super();
 	}
@@ -27,6 +31,9 @@ public class Reservation {
 		this.id_ch = id_ch;
 		this.id_client = id_client;
 	}
+
+
+	//Génération des setters and getters
 	public int getId_reserv() {
 		return id_reserv;
 	}
@@ -63,6 +70,9 @@ public class Reservation {
 	public void setId_client(int id_client) {
 		this.id_client = id_client;
 	}
+
+
+	//overide de la méthode string hétitée de la Classe Object
 	@Override
 	public String toString() {
 		return "Reservation [id_reserv=" + id_reserv + ", dateDebRes=" + dateDebRes + ", dateFinR=" + dateFinR

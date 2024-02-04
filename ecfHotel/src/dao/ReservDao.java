@@ -8,6 +8,8 @@ import entites.Db;
 import entites.ICatalogue;
 import entites.Reservation;
 
+
+//Meme commentaire que dans la classe Chambre
 public class ReservDao implements ICatalogue<Reservation>{
 
     @Override
@@ -25,6 +27,8 @@ public class ReservDao implements ICatalogue<Reservation>{
                 r.setDateDebRes(resp.getString("dateDebRes"));
                 r.setDateFinR(resp.getString("dateFinR"));
                 r.setNbPerso(resp.getInt("nbPerso"));
+                r.setId_ch(resp.getInt("id_ch"));
+                r.setId_client(resp.getInt("id_client"));
                 listeP.add(r);
             }
             return listeP;
@@ -63,8 +67,10 @@ public class ReservDao implements ICatalogue<Reservation>{
         ArrayList <Reservation> listeP = new ArrayList<>();
         try {
             PreparedStatement ps = Db.con.prepareStatement
-            ("SELECT * from reservation WHERE nbPerso LIKE ?");
+            ("SELECT * FROM reservation WHERE nbPerso LIKE ?");
             ps.setString(1, "%"+w+"%");
+            // ps.setString(2, "%"+w+"%");
+
             ResultSet resp = ps.executeQuery();
 
             while (resp.next()) {
@@ -127,6 +133,47 @@ public class ReservDao implements ICatalogue<Reservation>{
         System.out.println("non suppriùé".toLowerCase());
         e.printStackTrace();
     }
+    }
+
+
+    public int getIdChambreByReser(int id) {
+        try {
+        
+                PreparedStatement ps  = Db.con. prepareStatement
+                ("SELECT id_ch as id_ch FROM reservation WHERE id_reserv=?");
+                ps.setInt(1,id);
+                
+                ResultSet res = ps.executeQuery();
+                res.next();
+    
+                int idCh = res.getInt( "id_ch" );
+                return idCh;
+            
+        } catch (Exception e) {
+            System.err.println("non trouvé !!!");
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    public int getIdClientreByReser(int id) {
+        try {
+        
+                PreparedStatement ps  = Db.con. prepareStatement
+                ("SELECT id_client as id_client FROM reservation WHERE id_reserv=?");
+                ps.setInt(1,id);
+                
+                ResultSet res = ps.executeQuery();
+                res.next();
+    
+                int idCh = res.getInt( "id_client" );
+                return idCh;
+            
+        } catch (Exception e) {
+            System.err.println("non trouvé !!!");
+            e.printStackTrace();
+            return 0;
+        }
     }
 
 }

@@ -1,6 +1,7 @@
 package entites;
 
 public class Paiement {
+	//Création des propriétées
 	private int id_p;
 	private String dateP;
 	private float montP;
@@ -9,6 +10,8 @@ public class Paiement {
 	public Paiement() {
 		super();
 	}
+
+	//Génération des constructeurs
 	public Paiement(String dateP, float montP, String methP, int id_reserv) {
 		super();
 		this.dateP = dateP;
@@ -24,6 +27,10 @@ public class Paiement {
 		this.methP = methP;
 		this.id_reserv = id_reserv;
 	}
+
+
+
+	//Génération des setters and getters
 	public int getId_p() {
 		return id_p;
 	}
@@ -54,6 +61,9 @@ public class Paiement {
 	public void setId_reserv(int id_reserv) {
 		this.id_reserv = id_reserv;
 	}
+
+
+	//overide de la méthode string hétitée de la Classe Object
 	@Override
 	public String toString() {
 		return "Paiement [id_p=" + id_p + ", dateP=" + dateP + ", montP=" + montP + ", methP=" + methP + ", id_reserv="

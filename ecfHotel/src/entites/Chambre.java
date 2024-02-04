@@ -1,6 +1,8 @@
 package entites;
 
 public class Chambre {
+
+	//Création des propriétées
 	private int id_ch;
 	private int numCh;
 	private int nbLitChSimp;
@@ -15,6 +17,8 @@ public class Chambre {
 	private float prixNtCh;
 	private int id_hotel;
 	
+
+	//Génération des constructeurs
 	public Chambre() {
 		super();
 	}
@@ -54,6 +58,8 @@ public class Chambre {
 		this.id_hotel = id_hotel;
 	}
 
+
+	//Génération des setters and getters
 	public int getId_ch() {
 		return id_ch;
 	}
@@ -158,6 +164,8 @@ public class Chambre {
 		this.id_hotel = id_hotel;
 	}
 
+
+	//overide de la méthode string hétitée de la Classe Object
 	@Override
 	public String toString() {
 		return "Chambre [id_ch=" + id_ch + ", numCh=" + numCh + ", nbLitChSimp=" + nbLitChSimp + ", nbLitChDoub="

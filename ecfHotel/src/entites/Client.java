@@ -1,6 +1,7 @@
 package entites;
 
 public class Client {
+	//Création des propriétées
 	private int id_client;
 	private String prenomC;
 	private String adC;
@@ -13,6 +14,7 @@ public class Client {
 	private String nomC;
 	
 	
+	//Génération des constructeurs
 	public Client() {
 		super();
 	}
@@ -48,7 +50,7 @@ public class Client {
 		this.nomC = nomC;
 	}
 
-
+	//Génération des setters and getters
 	public int getId_client() {
 		return id_client;
 	}
@@ -148,7 +150,7 @@ public class Client {
 		this.nomC = nomC;
 	}
 
-
+	//overide de la méthode string hétitée de la Classe Object
 	@Override
 	public String toString() {
 		return "Client [id_client=" + id_client + ", prenomC=" + prenomC + ", adC=" + adC + ", ageC=" + ageC

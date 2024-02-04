@@ -8,20 +8,38 @@ import entites.Chambre;
 import entites.Db;
 import entites.ICatalogue;
 
+
+//implémentation de l'interface ICatalogue en remplaçant le type générique par l'objet voulu
 public class ChambreDao implements ICatalogue<Chambre>{
 
+    //overide de mes méthodes implémentées de l'interface ICatologue
     @Override
+
+    //méthode qui retourne une collection sans parametres
     public ArrayList<Chambre> getAll() {
+
+        //instanciation de la collection arraylist dans un objet de type générique Chambre
         ArrayList <Chambre> listeCh = new ArrayList<>();
+
+        //encapsulation dans un try catch pour une exception (erreur)
         try {
+
+            //req préparée
             PreparedStatement ps = Db.con.prepareStatement
             ("SELECT * FROM chambre");
 
+            //Execution de la req et assignation de celle-ci dans un objet de type Resulset
             ResultSet resp = ps.executeQuery();
 
+
+            //Appel de la méthode next() de resulset pour passer à la ligne suivante si elle est évoluée a true
             while (resp.next()) {
+
+                //instanciation de l'objet Chambre avec le mot clef new dans une variable de type Chambre
                 Chambre ch = new Chambre();
 
+
+                //Remplissage des champs de la classe Chambre avec les valeurs obtenues de la BD 
                 ch.setId_ch(resp.getInt("id_ch"));
                 ch.setNumCh(resp.getInt("numCh"));
                 ch.setNbLitChSimp(resp.getInt("nbLitChSimp"));
@@ -34,9 +52,13 @@ public class ChambreDao implements ICatalogue<Chambre>{
                 ch.setBaignCh(resp.getString("baignCh"));
                 ch.setInsonoCh(resp.getString("insonoCh"));
                 ch.setPrixNtCh(resp.getFloat("prixNtCh"));
+                ch.setId_hotel(resp.getInt("id_hotel"));
 
+                //Ajout de mon objet setté dans l'arraylist
                 listeCh.add(ch);
             }
+
+            //récupération de ma collection avec l'objet
             return listeCh;
         } catch (Exception e) {
             System.err.println("Liste des chambres introuvables".toUpperCase());
@@ -46,6 +68,8 @@ public class ChambreDao implements ICatalogue<Chambre>{
     }
 
     @Override
+
+    //méthode qui retourne un objet de type Chambre avec un parametre de type int
     public Chambre getById(int id) {
         try {
             PreparedStatement ps = Db.con.prepareStatement
@@ -78,6 +102,8 @@ public class ChambreDao implements ICatalogue<Chambre>{
     }
 
     @Override
+
+    //méthode qui retourne un objet de type Chambre avec un parametre de type Str
     public ArrayList<Chambre> recherche(String w) {
         ArrayList <Chambre> listeCh = new ArrayList<>();
         try {
@@ -113,9 +139,11 @@ public class ChambreDao implements ICatalogue<Chambre>{
     }
 
     @Override
+    //méthode de type void avec un parametre de type Chambre(objet)
     public void save(Chambre ch) {
     try {
         
+        //Si un id est trouvée on update notre objet passé en parametre
         if(ch.getId_ch() != 0) {
             PreparedStatement ps  = Db.con.prepareStatement
             ("UPDATE chambre SET numCh=?,nbLitChSimp=?,nbLitChDoub=?,supCh=?,salleBainP=?,tvCh=?,balconCh=?,refrigerCh=?,baignCh=?,insonoCh=?,prixNtCh=? WHERE id_ch=?");
@@ -134,6 +162,8 @@ public class ChambreDao implements ICatalogue<Chambre>{
             ps.executeUpdate();
             System.out.println("Mise à jour effectuée".toUpperCase());
         }else {
+
+            //si un objet n'est pas trouvé,on insert l'objet en remplaçant ses propriétés par les données reçues  de la BD
             PreparedStatement ps  = Db.con.prepareStatement
             ("INSERT INTO chambre (numCh,nbLitChSimp,nbLitChDoub,supCh,salleBainP,tvCh,balconCh,refrigerCh,baignCh,insonoCh,prixNtCh) VALUES(?,?,?,?,?,?,?,?,?,?,?)");
             ps.setInt(1,ch.getNumCh());
@@ -147,6 +177,8 @@ public class ChambreDao implements ICatalogue<Chambre>{
             ps.setString(9, ch.getBaignCh());
             ps.setString(10, ch.getInsonoCh());
             ps.setFloat(11, ch.getPrixNtCh());
+
+            //on appelle la méthode executeUpdate() de la classe PS car on update # Select
             ps.executeUpdate();
             System.out.println("insertion Réussie".toUpperCase());
         }
@@ -158,6 +190,8 @@ public class ChambreDao implements ICatalogue<Chambre>{
 }
 
     @Override
+
+    //méthode de type void avec un parametre de type int
     public void delete(int id) {
         try {
             

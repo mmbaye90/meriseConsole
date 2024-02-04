@@ -8,6 +8,7 @@ import entites.Db;
 import entites.ICatalogue;
 import entites.Societe;
 
+//Meme commentaire que dans la classe Chambre
 public class SocieteDao implements ICatalogue<Societe>{
 
     @Override

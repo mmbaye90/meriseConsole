@@ -8,6 +8,8 @@ import entites.Db;
 import entites.Hotel;
 import entites.ICatalogue;
 
+
+//Meme commentaire que dans la classe Chambre
 public class HotelDao implements ICatalogue<Hotel>{
 
     @Override
@@ -34,6 +36,7 @@ public class HotelDao implements ICatalogue<Hotel>{
                 h.setNavetteH(resp.getString("navetteH"));
                 h.setPresenceAniH(resp.getString("presenceAniH"));
                 h.setCatH(resp.getInt("catH"));
+                h.setId_soc(resp.getInt("id_soc"));
                 listeH.add(h);
             }
             return listeH;
@@ -66,6 +69,7 @@ public class HotelDao implements ICatalogue<Hotel>{
                 h.setNavetteH(resp.getString("navetteH"));
                 h.setPresenceAniH(resp.getString("presenceAniH"));
                 h.setCatH(resp.getInt("catH"));
+                h.setId_soc(resp.getInt("id_soc"));
                 return h;                  
             }
             else return null;

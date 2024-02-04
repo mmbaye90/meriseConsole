@@ -8,6 +8,8 @@ import entites.Client;
 import entites.Db;
 import entites.ICatalogue;
 
+
+//Meme commentaire que dans la classe Chambre
 public class ClientDao implements ICatalogue<Client>{
 
     @Override
@@ -79,7 +81,7 @@ public class ClientDao implements ICatalogue<Client>{
         ArrayList <Client> listeCh = new ArrayList<>();
         try {
             PreparedStatement ps = Db.con.prepareStatement
-            ("SELECT * from client WHERE prenom LIKE ?");
+            ("SELECT * from client WHERE prenomC LIKE ?");
             ps.setString(1, "%"+w+"%");
             ResultSet resp = ps.executeQuery();
 

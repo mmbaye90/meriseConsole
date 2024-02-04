@@ -8,6 +8,8 @@ import entites.Db;
 import entites.ICatalogue;
 import entites.Paiement;
 
+
+//Meme commentaire que dans la classe Chambre
 public class PaiementDao implements ICatalogue<Paiement>{
 
     @Override
@@ -25,6 +27,7 @@ public class PaiementDao implements ICatalogue<Paiement>{
                 p.setDateP(resp.getString("dateP"));
                 p.setMontP(resp.getFloat("montP"));
                 p.setMethP(resp.getString("methP"));
+                p.setId_reserv(resp.getInt("id_reserv"));
                 listeP.add(p);
             }
             return listeP;

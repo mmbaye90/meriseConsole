@@ -1,6 +1,7 @@
 package entites;
 
 public class Hotel {
+	//Création des propriétées
 	private int id_hotel;
 	private String nomH;
 	private String adresseH;
@@ -15,6 +16,8 @@ public class Hotel {
 	private String presenceAniH;
 	private int catH;
 	private int id_soc;
+
+	//Génération des constructeurs
 	public Hotel() {
 		super();
 	}
@@ -55,6 +58,9 @@ public class Hotel {
 		this.catH = catH;
 		this.id_soc = id_soc;
 	}
+
+
+	//Génération des setters and getters
 	public int getId_hotel() {
 		return id_hotel;
 	}
@@ -139,6 +145,8 @@ public class Hotel {
 	public void setId_soc(int id_soc) {
 		this.id_soc = id_soc;
 	}
+
+	//overide de la méthode string hétitée de la Classe Object
 	@Override
 	public String toString() {
 		return "Hotel [id_hotel=" + id_hotel + ", nomH=" + nomH + ", adresseH=" + adresseH + ", villeH=" + villeH
