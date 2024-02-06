@@ -91,7 +91,8 @@ public class ChambreDao implements ICatalogue<Chambre>{
                 ch.setBaignCh(resp.getString("baignCh"));
                 ch.setInsonoCh(resp.getString("insonoCh"));
                 ch.setPrixNtCh(resp.getFloat("prixNtCh"));
-                
+                ch.setId_hotel(resp.getInt("id_hotel"));
+
                 return ch;                  
             }else return null;
         } catch (Exception e) {
@@ -127,6 +128,7 @@ public class ChambreDao implements ICatalogue<Chambre>{
                 ch.setBaignCh(resp.getString("baignCh"));
                 ch.setInsonoCh(resp.getString("insonoCh"));
                 ch.setPrixNtCh(resp.getFloat("prixNtCh"));
+                ch.setId_hotel(resp.getInt("id_hotel"));
 
                 listeCh.add(ch);
             }
@@ -146,7 +148,7 @@ public class ChambreDao implements ICatalogue<Chambre>{
         //Si un id est trouvée on update notre objet passé en parametre
         if(ch.getId_ch() != 0) {
             PreparedStatement ps  = Db.con.prepareStatement
-            ("UPDATE chambre SET numCh=?,nbLitChSimp=?,nbLitChDoub=?,supCh=?,salleBainP=?,tvCh=?,balconCh=?,refrigerCh=?,baignCh=?,insonoCh=?,prixNtCh=? WHERE id_ch=?");
+            ("UPDATE chambre SET numCh=?,nbLitChSimp=?,nbLitChDoub=?,supCh=?,salleBainP=?,tvCh=?,balconCh=?,refrigerCh=?,baignCh=?,insonoCh=?,prixNtCh=?,id_hotel=? WHERE id_ch=?");
             ps.setInt(1,ch.getNumCh());
             ps.setInt(2,ch.getNbLitChSimp());
             ps.setInt(3,ch.getNbLitChDoub());
@@ -158,14 +160,15 @@ public class ChambreDao implements ICatalogue<Chambre>{
             ps.setString(9, ch.getBaignCh());
             ps.setString(10, ch.getInsonoCh());
             ps.setFloat(11, ch.getPrixNtCh());
-            ps.setInt(12, ch.getId_ch());
+            ps.setInt(12, ch.getId_hotel());
+            ps.setInt(13, ch.getId_ch());
             ps.executeUpdate();
             System.out.println("Mise à jour effectuée".toUpperCase());
         }else {
 
             //si un objet n'est pas trouvé,on insert l'objet en remplaçant ses propriétés par les données reçues  de la BD
             PreparedStatement ps  = Db.con.prepareStatement
-            ("INSERT INTO chambre (numCh,nbLitChSimp,nbLitChDoub,supCh,salleBainP,tvCh,balconCh,refrigerCh,baignCh,insonoCh,prixNtCh) VALUES(?,?,?,?,?,?,?,?,?,?,?)");
+            ("INSERT INTO chambre (numCh,nbLitChSimp,nbLitChDoub,supCh,salleBainP,tvCh,balconCh,refrigerCh,baignCh,insonoCh,prixNtCh,id_hotel) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)");
             ps.setInt(1,ch.getNumCh());
             ps.setInt(2,ch.getNbLitChSimp());
             ps.setInt(3,ch.getNbLitChDoub());
@@ -177,6 +180,7 @@ public class ChambreDao implements ICatalogue<Chambre>{
             ps.setString(9, ch.getBaignCh());
             ps.setString(10, ch.getInsonoCh());
             ps.setFloat(11, ch.getPrixNtCh());
+            ps.setInt(12, ch.getId_hotel());
 
             //on appelle la méthode executeUpdate() de la classe PS car on update # Select
             ps.executeUpdate();

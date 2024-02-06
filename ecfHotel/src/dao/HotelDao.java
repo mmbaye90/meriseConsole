@@ -106,6 +106,7 @@ public class HotelDao implements ICatalogue<Hotel>{
                 h.setNavetteH(resp.getString("navetteH"));
                 h.setPresenceAniH(resp.getString("presenceAniH"));
                 h.setCatH(resp.getInt("catH"));
+                h.setId_soc(resp.getInt("id_soc"));
                 listeH.add(h);
 
             }
@@ -123,7 +124,7 @@ public class HotelDao implements ICatalogue<Hotel>{
         
         if(htl.getId_hotel() != 0) {
             PreparedStatement ps  = Db.con.prepareStatement
-            ("UPDATE hotel SET nomH=?,adresseH=?,villeH=?,descriptionH=?,parkingH=?,wifiH=?,heureAaH=?,heureDepH=?,piscineH=?,navetteH=?,presenceAniH=?,catH=? WHERE id_ch=?");
+            ("UPDATE hotel SET nomH=?,adresseH=?,villeH=?,descriptionH=?,parkingH=?,wifiH=?,heureAaH=?,heureDepH=?,piscineH=?,navetteH=?,presenceAniH=?,catH=?,id_soc=? WHERE id_hotel=?");
             ps.setString(1,htl.getNomH());
             ps.setString(2,htl.getAdresseH());
             ps.setString(3,htl.getVilleH());
@@ -136,12 +137,13 @@ public class HotelDao implements ICatalogue<Hotel>{
             ps.setString(10,htl.getNavetteH());
             ps.setString(11, htl.getPresenceAniH());
             ps.setInt(12,htl.getCatH());
-            ps.setInt(13,htl.getId_hotel());
+            ps.setInt(13,htl.getId_soc());
+            ps.setInt(14,htl.getId_hotel());
             ps.executeUpdate();
             System.out.println("Mise à jour effectuée".toUpperCase());
         }else {
             PreparedStatement ps  = Db.con.prepareStatement
-            ("INSERT INTO hotel (nomH,adresseH,villeH,descriptionH,parkingH,wifiH,heureAaH,heureDepH,piscineH,navetteH,presenceAniH,catH) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)");
+            ("INSERT INTO hotel (nomH,adresseH,villeH,descriptionH,parkingH,wifiH,heureAaH,heureDepH,piscineH,navetteH,presenceAniH,catH,id_soc) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)");
             ps.setString(1,htl.getNomH());
             ps.setString(2,htl.getAdresseH());
             ps.setString(3,htl.getVilleH());
@@ -154,6 +156,7 @@ public class HotelDao implements ICatalogue<Hotel>{
             ps.setString(10,htl.getNavetteH());
             ps.setString(11, htl.getPresenceAniH());
             ps.setInt(12,htl.getCatH());
+            ps.setInt(13,htl.getCatH());
             ps.executeUpdate();
             System.out.println("insertion Réussie".toUpperCase());
         }

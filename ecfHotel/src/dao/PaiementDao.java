@@ -52,7 +52,8 @@ public class PaiementDao implements ICatalogue<Paiement>{
                 p.setDateP(resp.getString("dateP"));
                 p.setMontP(resp.getFloat("montP"));
                 p.setMethP(resp.getString("methP"));
-                
+                p.setId_reserv(resp.getInt("id_reserv"));
+
                 return p;                  
             }else return null;
         } catch (Exception e) {
@@ -77,6 +78,7 @@ public class PaiementDao implements ICatalogue<Paiement>{
                 p.setDateP(resp.getString("dateP"));
                 p.setMontP(resp.getFloat("montP"));
                 p.setMethP(resp.getString("methP"));
+                p.setId_reserv(resp.getInt("id_reserv"));
                 listeP.add(p);
             }
             return listeP;
@@ -94,19 +96,21 @@ public class PaiementDao implements ICatalogue<Paiement>{
         
         if(p.getId_p() != 0) {
             PreparedStatement ps  = Db.con.prepareStatement
-            ("UPDATE paiement SET dateP=?,montP=?,methP=? WHERE id_p=?");
+            ("UPDATE paiement SET dateP=?,montP=?,methP=?,id_reserv WHERE id_p=?");
             ps.setString(1,p.getDateP());
             ps.setFloat(2,p.getMontP());
             ps.setString(3,p.getMethP());
-            ps.setInt(4,p.getId_p());
+            ps.setInt(4,p.getId_reserv());
+            ps.setInt(5,p.getId_p());
             ps.executeUpdate();
             System.out.println("Mise à jour effectuée".toUpperCase());
         }else {
             PreparedStatement ps  = Db.con.prepareStatement
-            ("INSERT INTO paiement (dateP,montP,methP) VALUES(?,?,?)");
+            ("INSERT INTO paiement (dateP,montP,methP,id_reserv) VALUES(?,?,?,?)");
             ps.setString(1,p.getDateP());
             ps.setFloat(2,p.getMontP());
             ps.setString(3,p.getMethP());
+            ps.setInt(4,p.getId_reserv());
             ps.executeUpdate();
             System.out.println("insertion Réussie".toUpperCase());
         }

@@ -52,7 +52,8 @@ public class ReservDao implements ICatalogue<Reservation>{
                 r.setDateDebRes(resp.getString("dateDebRes"));
                 r.setDateFinR(resp.getString("dateFinR"));
                 r.setNbPerso(resp.getInt("nbPerso"));
-                
+                r.setNbPerso(resp.getInt("id_ch"));
+                r.setNbPerso(resp.getInt("id_client"));
                 return r;                  
             }else return null;
         } catch (Exception e) {
@@ -80,6 +81,9 @@ public class ReservDao implements ICatalogue<Reservation>{
                 r.setDateDebRes(resp.getString("dateDebRes"));
                 r.setDateFinR(resp.getString("dateFinR"));
                 r.setNbPerso(resp.getInt("nbPerso"));
+                r.setNbPerso(resp.getInt("id_ch"));
+                r.setNbPerso(resp.getInt("id_client"));
+
                 listeP.add(r);
 
             }
@@ -96,19 +100,24 @@ public class ReservDao implements ICatalogue<Reservation>{
         
         if(res.getId_reserv() != 0) {
             PreparedStatement ps  = Db.con.prepareStatement
-            ("UPDATE reservation SET dateDebRes=?,dateFinR=?,nbPerso=? WHERE id_reserv=?");
+            ("UPDATE reservation SET dateDebRes=?,dateFinR=?,nbPerso=?,id_ch=?,id_client=? WHERE id_reserv=?");
             ps.setString(1,res.getDateDebRes());
             ps.setString(2,res.getDateFinR());
             ps.setInt(3,res.getNbPerso());
-            ps.setInt(4,res.getId_reserv());
+            ps.setInt(4,res.getId_ch());
+            ps.setInt(5,res.getId_client());
+            ps.setInt(6,res.getId_reserv());
             ps.executeUpdate();
             System.out.println("Mise à jour effectuée".toUpperCase());
         }else {
             PreparedStatement ps  = Db.con.prepareStatement
-            ("INSERT INTO reservation (dateDebRes,dateFinR,nbPerso) VALUES(?,?,?)");
+            ("INSERT INTO reservation (dateDebRes,dateFinR,nbPerso,id_ch,id_client) VALUES(?,?,?,?,?)");
             ps.setString(1,res.getDateDebRes());
             ps.setString(2,res.getDateFinR());
             ps.setInt(3,res.getNbPerso());
+            ps.setInt(4,res.getId_ch());
+            ps.setInt(5,res.getId_client());
+
             ps.executeUpdate();
             System.out.println("insertion Réussie".toUpperCase());
         }
