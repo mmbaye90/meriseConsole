@@ -85,8 +85,10 @@ public class HotelDao implements ICatalogue<Hotel>{
         ArrayList <Hotel> listeH = new ArrayList<>();
         try {
             PreparedStatement ps = Db.con.prepareStatement
-            ("SELECT * from hotel WHERE nomH LIKE ?");
+            ("SELECT * from hotel WHERE nomH LIKE ? OR villeH LIKE ?");
             ps.setString(1, "%"+w+"%");
+            ps.setString(2, "%"+w+"%");
+
             ResultSet resp = ps.executeQuery();
 
             while (resp.next()) {
@@ -177,6 +179,26 @@ public class HotelDao implements ICatalogue<Hotel>{
         System.out.println("non suppriùé".toLowerCase());
         e.printStackTrace();
     }
+    }
+
+    public int getIdSocieteByHotel(int id) {
+        try {
+        
+                PreparedStatement ps  = Db.con. prepareStatement
+                ("SELECT id_soc as id_soc FROM hotel WHERE  id_hotel =?");
+                ps.setInt(1,id);
+                
+                ResultSet res = ps.executeQuery();
+                res.next();
+    
+                int idCh = res.getInt( "id_soc" );
+                return idCh;
+            
+        } catch (Exception e) {
+            System.err.println("non trouvé !!!");
+            e.printStackTrace();
+            return 0;
+        }
     }
 
 }

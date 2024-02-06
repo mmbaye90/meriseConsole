@@ -108,7 +108,7 @@ public class ChambreDao implements ICatalogue<Chambre>{
         ArrayList <Chambre> listeCh = new ArrayList<>();
         try {
             PreparedStatement ps = Db.con.prepareStatement
-            ("SELECT * from chambre WHERE prixNtCh LIKE ?");
+            ("SELECT * from chambre WHERE numCh LIKE ?");
             ps.setString(1, "%"+w+"%");
             ResultSet resp = ps.executeQuery();
 
@@ -206,5 +206,85 @@ public class ChambreDao implements ICatalogue<Chambre>{
         e.printStackTrace();
     }
 }
+    
+//Récuperation de la clef etrangere enfin d'acceder aux proprietés de l'Hotel
+//si non on aura un null comme retour
+    public int getIdHotelByChambre(int id) {
+        try {
+        
+                PreparedStatement ps  = Db.con. prepareStatement
+                ("SELECT id_hotel as id_hotel FROM chambre WHERE id_ch =?");
+                ps.setInt(1,id);
+                
+                ResultSet res = ps.executeQuery();
+                res.next();
+
+                int idCh = res.getInt( "id_hotel" );
+                return idCh;
+            
+        } catch (Exception e) {
+            System.err.println("non trouvé !!!");
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    //req pour faire des statistiques
+    //----------------------------------------- avoir le total des chambres--------
+    public int getTotalChbre() {
+        try {
+        
+                PreparedStatement ps  = Db.con. prepareStatement
+                ("SELECT COUNT(*) as totalCh FROM chambre");
+                ResultSet res = ps.executeQuery();
+                res.next();
+
+                int totalCh = res.getInt( "totalCh" );
+                return totalCh;
+            
+        } catch (Exception e) {
+            System.err.println("non trouvé !!!");
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    //----------------------------------------- avoir les chambres occupées--------
+    public int getChbrOccup() {
+        try {
+                //chambre ocupée=> chambre qui se trouve dans réservation
+                PreparedStatement ps  = Db.con. prepareStatement
+                ("SELECT COUNT(*) AS chOccup FROM chambre WHERE id_ch IN (SELECT id_ch FROM reservation)");
+                ResultSet res = ps.executeQuery();
+                res.next();
+
+                int totalCh = res.getInt( "chOccup" );
+                return totalCh;
+            
+        } catch (Exception e) {
+            System.err.println("non trouvé !!!");
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+//----------------------------------------- prix total ch occup--------
+        public int getPrixTotChOccup() {
+            try {
+                    PreparedStatement ps  = Db.con. prepareStatement
+                    ("SELECT SUM(prixNtCh) AS priTotChL FROM chambre WHERE id_ch IN(SELECT id_ch FROM reservation)");
+                    ResultSet res = ps.executeQuery();
+                    res.next();
+    
+                    int priTotChL = res.getInt( "priTotChL" );
+                    return priTotChL;
+                
+            } catch (Exception e) {
+                System.err.println("non trouvé !!!");
+                e.printStackTrace();
+                return 0;
+            }
+        }
+    
 
 }

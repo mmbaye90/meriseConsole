@@ -67,9 +67,10 @@ public class ReservDao implements ICatalogue<Reservation>{
         ArrayList <Reservation> listeP = new ArrayList<>();
         try {
             PreparedStatement ps = Db.con.prepareStatement
-            ("SELECT * FROM reservation WHERE nbPerso LIKE ?");
+            ("SELECT * FROM reservation WHERE  dateDebRes LIKE ? OR dateFinR LIKE ?");
             ps.setString(1, "%"+w+"%");
-            // ps.setString(2, "%"+w+"%");
+            ps.setString(2, "%"+w+"%");
+
 
             ResultSet resp = ps.executeQuery();
 
@@ -136,6 +137,9 @@ public class ReservDao implements ICatalogue<Reservation>{
     }
 
 
+    //ces deux methode qui me permet de récuperer l'ID de la clef étrangere a partir de la
+    //table Reservation enfin de pouvoir pointer vers les propriétés de ces tables
+    // ===========================================================
     public int getIdChambreByReser(int id) {
         try {
         
@@ -175,5 +179,5 @@ public class ReservDao implements ICatalogue<Reservation>{
             return 0;
         }
     }
-
+// ===========================================================
 }

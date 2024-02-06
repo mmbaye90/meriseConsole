@@ -133,4 +133,27 @@ public class PaiementDao implements ICatalogue<Paiement>{
         e.printStackTrace();
     }    }
 
+
+//req pour obtenir la clef etrangéres de ces tables enfin d'avoir acces à leur propriété et 
+//d'en afficher quelque
+    public int getIdResByPaiement(int id) {
+        try {
+        
+                PreparedStatement ps  = Db.con. prepareStatement
+                ("SELECT id_reserv as id_reserv FROM paiement WHERE  id_p =?");
+                ps.setInt(1,id);
+                
+                ResultSet res = ps.executeQuery();
+                res.next();
+    
+                int idCh = res.getInt( "id_reserv" );
+                return idCh;
+            
+        } catch (Exception e) {
+            System.err.println("non trouvé !!!");
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
 }
